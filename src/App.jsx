@@ -1,4 +1,8 @@
 import { useState } from "react";
+import React from 'react';
+
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [title, setTitle] = useState("");
@@ -23,6 +27,9 @@ function App() {
     copyTodos.splice(index, 1);
     setTodos(copyTodos);
   };
+  
+  const notifyCompleted = () => toast("Task Completed")
+  const notifyDeleted = () => toast("Task Deleted")
 
   let renderTask = <h2>No task Available!</h2>;
 
@@ -37,13 +44,19 @@ function App() {
             </div>
             <div>
               <button
-                onClick={() => deleteHandler(index)}
+                onClick={() => {
+                  deleteHandler(index)
+                  notifyDeleted()
+                }}
                 className="bg-red-500 text-center mt-2 w-[100px] px-5 py-2 h-[40px] font-bold rounded outline-none hover:bg-red-300"
               >
                 Delete
               </button>
               <button
-                onClick={() => completeHandler(index)}
+                onClick={() => {
+                  completeHandler(index)
+                  notifyCompleted()
+                }}
                 className="bg-green-500 text-center w-[100px] mt-2 px-5 py-2 h-[40px] font-bold rounded outline-none hover:bg-green-300"
               >
                 Complete
@@ -59,6 +72,19 @@ function App() {
   return (
     <>
       <div className="bg-purple-600 h-screen">
+      <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          transition={Bounce}
+/>
         <h1 className="text-5xl text-center text-white pt-5">Todo App</h1>
         <div
           className="bg-purple-900 overflow-y-auto w-[70%]  p-12  
