@@ -1,78 +1,45 @@
-import { useState } from "react";
-import React from 'react';
+import React, { useEffect, useState } from "react";
 
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
-  const [todos, setTodos] = useState([]);
+
+  const [title, setTitle] = useState('')
+  const [desc, setDesc] = useState('')
+  
+
+  const [todos, setTodos] = useState(() => {
+    const savedTodos = localStorage.getItem('todos');
+    return savedTodos ? JSON.parse(savedTodos) : [];
+  });
+  
 
   const submitHandler = (e) => {
-    e.preventDefault();
-    setTodos([...todos, { title, desc }]);
-    setDesc("");
-    setTitle("");
-  };
+    e.preventDefault()
+    setTodos([...todos, { title, desc }])
+    setDesc('')
+    setTitle('')
+  }
 
   const deleteHandler = (index) => {
-    let copyTodos = [...todos];
-    copyTodos.splice(index, 1);
-    setTodos(copyTodos);
+    const newTodos = todos.filter((_, i) => i !== index);
+    setTodos(newTodos);
   };
 
-  const completeHandler = (index) => {
-    let copyTodos = [...todos];
-    copyTodos.splice(index, 1);
-    setTodos(copyTodos);
-  };
-  
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
+   
   const notifyCompleted = () => toast("Task Completed")
   const notifyDeleted = () => toast("Task Deleted")
-
-  let renderTask = <h2>No task Available!</h2>;
-
-  if (todos.length > 0) {
-    renderTask = todos.map((task, index) => {
-      return (
-        <>
-          <li key={index} className="flex justify-between">
-            <div className="p-2 w-full">
-              <h5 className="text-2xl font-bold">{task.title}</h5>
-              <h3 className="text-sm mt-6">{task.desc}</h3>
-            </div>
-            <div>
-              <button
-                onClick={() => {
-                  deleteHandler(index)
-                  notifyDeleted()
-                }}
-                className="bg-red-500 text-center mt-2 w-[100px] px-5 py-2 h-[40px] font-bold rounded outline-none hover:bg-red-300"
-              >
-                Delete
-              </button>
-              <button
-                onClick={() => {
-                  completeHandler(index)
-                  notifyCompleted()
-                }}
-                className="bg-green-500 text-center w-[100px] mt-2 px-5 py-2 h-[40px] font-bold rounded outline-none hover:bg-green-300"
-              >
-                Complete
-              </button>
-            </div>
-          </li>
-          <hr className="bg-white mt-3" />
-        </>
-      );
-    });
-  }
+        
+  let renderTask = <h2>No Task Available!</h2>
 
   return (
     <>
-      <div className="bg-purple-600 h-screen">
-      <ToastContainer
+      <div className="w-full flex flex-col justify-center items-center h-screen selection:bg-[#000] bg-zinc-900">
+       <ToastContainer
           position="top-center"
           autoClose={2000}
           hideProgressBar={false}
@@ -84,38 +51,74 @@ function App() {
           pauseOnHover
           theme="dark"
           transition={Bounce}
-/>
-        <h1 className="text-5xl text-center text-white pt-5">Todo App</h1>
-        <div
-          className="bg-purple-900 overflow-y-auto w-[70%]  p-12  
-           absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        >
-          <form onSubmit={submitHandler}>
-            <div className="w-full md:flex justify-around items-center">
-              <input
-                type="text"
-                value={title}
-                placeholder="Enter Your Task"
-                onChange={(e) => setTitle(e.target.value)}
-                className="lg:w-[380px] w-[55vw] h-[35px]  pl-2 outline-none border-[3px] mr-2 border-purple-300 rounded"
-              />
-              <input
-                type="text"
-                value={desc}
-                placeholder="Enter Your Description"
-                onChange={(e) => setDesc(e.target.value)}
-                className="lg:w-[380px] w-[55vw] h-[35px] pl-2 border-[3px] outline-none border-purple-300 md:mt-0 mt-5 lg:ml-2 rounded"
-              />
-              <br />
+        />
+        <h1 className="text-6xl mb-5 text-white font-bold">Todo App</h1>
+        <div className="bg-zinc-800 overflow-y-auto w-[80%] h-[500px]">
+          <div className="w-full flex items-center justify-center h-[100px]">
+            <form
+             onSubmit={submitHandler}
+             className="flex items-center">
+              <div>
+                <h1 className="mb-2 font-bold text-white">Title:</h1>
+                <input
+                  placeholder="Enter Your Task Here"
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-[300px] h-8 rounded mr-5 pl-3 outline-none focus:outline-[#1ac03e]"
+                />
+              </div>
+              <div>
+                <h1 className="mb-2 font-bold text-white">Description:</h1>
+                <input
+                  placeholder="Enter Your Description Here"
+                  type="text"
+                  value={desc}
+                  onChange={(e) => setDesc(e.target.value)}
+                  className="w-[300px] rounded h-8 pl-3 outline-none focus:outline-[#1ac03e]"
+                />
+              </div>
+              <div>
+              <button className="bg-[#1ac03e] font-bold hover:bg-[#88f6a0] text-white rounded mt-8 py-[4px] px-4 ml-5">Add Task</button>
+              </div>
+            </form>
+          </div>
+          <div className="w-full flex justify-center">
+            <div className="w-[80%] p-3 text-white bg-zinc-700">
+                { 
+                todos.length <= 0 
+                ?
+                renderTask
+                :
+                todos.map((todo, index) => {
+                  return(
+                    <>
+                     <div key={index} className="flex mt-2 justify-between">
+                       <div>
+                          <h3 className="text-3xl text-[#1ac03e] font-semibold">{todo.title === '' ? <h2 className="text-red-500">Invalid Title</h2> : todo.title}</h3>
+                          <h5 className="text-lg font-light">{todo.desc === '' ? <h2 className="text-red-500">Invalid Description</h2> : todo.desc}</h5>
+                        </div>
+                       <div className="">
+                       <button
+                         onClick={() => {
+                          deleteHandler(index)
+                          notifyDeleted()
+                         }}
+                         className="bg-red-500 mr-2 font-bold text-center rounded mt-2 hover:bg-red-400 py-2 px-3">Delete</button>
+                       <button
+                         onClick={() => {
+                          deleteHandler(index)
+                          notifyCompleted()
+                         }}
+                         className="bg-[#1ac03e] font-bold text-center rounded mt-2 hover:bg-[#88f6a0] py-2 px-3">Complete</button>
+                       </div>
+                     </div>
+                     <hr className="bg-white mt-3"/>
+                    </>
+                  )
+                })
+                }
             </div>
-            <div className="w-full">
-              <button className="py-3 mb-2 w-[150px] hover:bg-purple-400 rounded px-4 bg-purple-950 mt-5 text-white">
-                Add Task
-              </button>
-            </div>
-          </form>
-          <div className="w-full p-3 text-white  bg-purple-500 mt-5 rounded">
-            {renderTask}
           </div>
         </div>
       </div>
