@@ -56,10 +56,10 @@ function App() {
         />
         <h1 className="text-6xl mb-5 text-white font-bold">Todo App</h1>
         <div className="bg-zinc-800 overflow-y-auto w-[80%] h-[500px]">
-          <div className="w-full flex items-center justify-center h-[100px]">
+          <div className="w-full my-7 flex lg:flex items-center justify-center">
             <form
              onSubmit={submitHandler}
-             className="flex items-center">
+             className="lg:flex items-center">
               <div>
                 <h1 className="mb-2 font-bold text-white">Title:</h1>
                 <input
@@ -71,7 +71,7 @@ function App() {
                 />
               </div>
               <div>
-                <h1 className="mb-2 font-bold text-white">Description:</h1>
+                <h1 className="mb-2 lg:mt-0 mt-3 font-bold text-white">Description:</h1>
                 <input
                   placeholder="Enter Your Description Here"
                   type="text"
@@ -85,8 +85,8 @@ function App() {
               </div>
             </form>
           </div>
-          <div className="w-full flex justify-center">
-            <div className="w-[80%] p-3 text-white rounded bg-zinc-700">
+          <div className="w-full items-center lg:flex justify-center">
+            <div className="w-full p-3 text-white rounded bg-zinc-700">
                 { 
                 todos.length <= 0 
                 ?
@@ -95,12 +95,12 @@ function App() {
                 todos.map((todo, index) => {
                   return(
                     <>
-                     <div key={index} className="flex ml-3 mt-2 justify-between">
+                     <div key={index} className="lg:flex overflow-x-auto ml-3 mt-2 justify-between">
                        <div>
                           <h3 className="text-3xl text-[#1ac03e] font-semibold">{todo.title === '' ? <h2 className="text-red-500">Invalid Title</h2> : todo.title}</h3>
                           <h5 className="text-lg font-light">{todo.desc === '' ? <h2 className="text-red-500">Invalid Description</h2> : todo.desc}</h5>
                         </div>
-                       <div className=" mb-2 mr-5">
+                       <div className=" mb-2 text-end mr-5">
                        <h6 className=" font-extralight text-sm text-end">{ newDate }</h6>
                        <button
                          onClick={() => {
