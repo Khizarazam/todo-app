@@ -14,6 +14,8 @@ function App() {
     return savedTodos ? JSON.parse(savedTodos) : [];
   });
   
+  let date = new Date()
+  let newDate = date.toDateString()
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -31,8 +33,8 @@ function App() {
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
    
-  const notifyCompleted = () => toast("Task Completed")
-  const notifyDeleted = () => toast("Task Deleted")
+  const notifyCompleted = () => toast("Task Completed ✔")
+  const notifyDeleted = () => toast("Task Deleted ❌")
         
   let renderTask = <h2>No Task Available!</h2>
 
@@ -84,7 +86,7 @@ function App() {
             </form>
           </div>
           <div className="w-full flex justify-center">
-            <div className="w-[80%] p-3 text-white bg-zinc-700">
+            <div className="w-[80%] p-3 text-white rounded bg-zinc-700">
                 { 
                 todos.length <= 0 
                 ?
@@ -93,12 +95,13 @@ function App() {
                 todos.map((todo, index) => {
                   return(
                     <>
-                     <div key={index} className="flex mt-2 justify-between">
+                     <div key={index} className="flex ml-3 mt-2 justify-between">
                        <div>
+                          <h6 className=" font-extralight text-sm pb-2">{ newDate }</h6>
                           <h3 className="text-3xl text-[#1ac03e] font-semibold">{todo.title === '' ? <h2 className="text-red-500">Invalid Title</h2> : todo.title}</h3>
                           <h5 className="text-lg font-light">{todo.desc === '' ? <h2 className="text-red-500">Invalid Description</h2> : todo.desc}</h5>
                         </div>
-                       <div className="">
+                       <div className=" mt-7 mr-5">
                        <button
                          onClick={() => {
                           deleteHandler(index)
