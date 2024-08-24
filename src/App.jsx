@@ -97,17 +97,17 @@ function App() {
                     <>
                      <div key={index} className="flex ml-3 mt-2 justify-between">
                        <div>
-                          <h6 className=" font-extralight text-sm pb-2">{ newDate }</h6>
                           <h3 className="text-3xl text-[#1ac03e] font-semibold">{todo.title === '' ? <h2 className="text-red-500">Invalid Title</h2> : todo.title}</h3>
                           <h5 className="text-lg font-light">{todo.desc === '' ? <h2 className="text-red-500">Invalid Description</h2> : todo.desc}</h5>
                         </div>
-                       <div className=" mt-7 mr-5">
+                       <div className=" mb-2 mr-5">
+                       <h6 className=" font-extralight text-sm text-end">{ newDate }</h6>
                        <button
                          onClick={() => {
                           deleteHandler(index)
                           notifyDeleted()
                          }}
-                         className="bg-red-500 mr-2 font-bold text-center rounded mt-2 hover:bg-red-400 py-2 px-3">Delete</button>
+                         className="bg-red-500 mr-2 font-bold text-center rounded hover:bg-red-400 py-2 px-3">Delete</button>
                        <button
                          onClick={() => {
                           deleteHandler(index)
