@@ -61,23 +61,23 @@ function App() {
              onSubmit={submitHandler}
              className="lg:flex items-center">
               <div>
-                <h1 className="mb-2 font-bold text-white">Title:</h1>
+                <h1 className="mb-2 md:mx-0 mx-2 font-bold text-white">Title:</h1>
                 <input
                   placeholder="Enter Your Task Here"
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-[300px] h-8 rounded mr-5 pl-3 outline-none focus:outline-[#1ac03e]"
+                  className="sm:w-[300px] w-[250px] md:ml-0 ml-2 h-8 rounded mr-5 pl-3 outline-none focus:outline-[#1ac03e]"
                 />
               </div>
               <div>
-                <h1 className="mb-2 lg:mt-0 mt-3 font-bold text-white">Description:</h1>
+                <h1 className="mb-2 md:mx-0 mx-2 lg:mt-0 mt-3 font-bold text-white">Description:</h1>
                 <input
                   placeholder="Enter Your Description Here"
                   type="text"
                   value={desc}
                   onChange={(e) => setDesc(e.target.value)}
-                  className="w-[300px] rounded h-8 pl-3 outline-none focus:outline-[#1ac03e]"
+                  className="sm:w-[300px] w-[250px] md:ml-0 ml-2 rounded h-8 pl-3 outline-none focus:outline-[#1ac03e]"
                 />
               </div>
               <div>
@@ -109,7 +109,7 @@ function App() {
                          }}
                          className="bg-red-500 mr-2 font-bold text-center rounded hover:bg-red-400 py-2 px-3">Delete</button>
                        <button
-                         onClick={() => {
+                         onClick={(index) => {
                           deleteHandler(index)
                           notifyCompleted()
                          }}
